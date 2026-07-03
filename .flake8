@@ -1,0 +1,5 @@
+ignore = E501, E225, W503, F841
+max-line-length = 119
+exclude = .venv, venv, env, __pycache__, migrations
+show-source = true
+statistics = true

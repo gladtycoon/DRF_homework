@@ -1,0 +1,30 @@
+[project]
+name = "drf-homework"
+version = "0.1.0"
+description = "homework for DRF"
+authors = [
+    {name = "Ivan Sokolskiy"}
+]
+license = "MIT"
+requires-python = ">=3.14"
+dependencies = [
+    "django (>=6.0.6,<7.0.0)",
+    "djangorestframework (>=3.17.1,<4.0.0)",
+    "psycopg2-binary (>=2.9.12,<3.0.0)",
+    "python-dotenv (>=1.2.2,<2.0.0)",
+    "pillow (>=12.3.0,<13.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.1.1,<10.0.0)",
+    "black (>=26.5.1,<27.0.0)",
+    "flake8 (>=7.3.0,<8.0.0)",
+    "mypy (>=2.1.0,<3.0.0)",
+    "isort (>=8.0.1,<9.0.0)"
+]
