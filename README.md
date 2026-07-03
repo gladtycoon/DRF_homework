@@ -37,5 +37,5 @@
 
 ### 1. Клонирование репозитория
 ```bash
-git clone https://github.com/gladtycoon/lms-api.git
-cd lms-api
+git clone https://github.com/gladtycoon/DRF_homework
+cd DRF_homework
