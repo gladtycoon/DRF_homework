@@ -1,6 +1,6 @@
-from rest_framework.fields import SerializerMethodField
 from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer, URLField
+from rest_framework.fields import SerializerMethodField
+from rest_framework.serializers import ModelSerializer
 
 from lms.models import Course, Lesson, Subscription
 from lms.validators import validate_allowed_links
@@ -28,10 +28,12 @@ class CourseDetailSerializer(ModelSerializer):
     def get_all_lessons_of_course(self, course):
         return [lesson.name for lesson in Lesson.objects.filter(course=course)]
 
-    def get_is_subscribed(self, course):  # ← ДОБАВЬ ЭТОТ МЕТОД
-        request = self.context.get('request')
+    def get_is_subscribed(self, course):
+        request = self.context.get("request")
         if request and request.user.is_authenticated:
-            return Subscription.objects.filter(user=request.user, course=course).exists()
+            return Subscription.objects.filter(
+                user=request.user, course=course
+            ).exists()
         return False
 
     class Meta:
@@ -47,7 +49,9 @@ class CourseDetailSerializer(ModelSerializer):
 
 class LessonSerializer(ModelSerializer):
     course = CourseSerializer(read_only=True)
-    video_link = serializers.URLField(validators=[validate_allowed_links], required=False)
+    video_link = serializers.URLField(
+        validators=[validate_allowed_links], required=False
+    )
 
     class Meta:
         model = Lesson

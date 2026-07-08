@@ -1,4 +1,3 @@
-from rest_framework import request
 from rest_framework.generics import (CreateAPIView, DestroyAPIView,
                                      ListAPIView, RetrieveAPIView,
                                      UpdateAPIView, get_object_or_404)
@@ -9,10 +8,10 @@ from rest_framework.viewsets import ModelViewSet
 
 from lms.models import Course, Lesson, Subscription
 from lms.paginators import CustomPagination
+from lms.permissions import IsOwner
 from lms.serializers import (CourseDetailSerializer, CourseSerializer,
                              LessonSerializer)
 from users.permissions import IsModer
-from lms.permissions import IsOwner
 
 
 class CourseViewSet(ModelViewSet):
@@ -26,7 +25,7 @@ class CourseViewSet(ModelViewSet):
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        context['request'] = self.request
+        context["request"] = self.request
         return context
 
     def perform_create(self, serializer):
@@ -78,21 +77,22 @@ class LessonDestroyApiView(DestroyAPIView):
     serializer_class = LessonSerializer
     permission_classes = [IsOwner]
 
+
 class SubscriptionView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         user = request.user
-        course_id = request.data.get('course_id')
+        course_id = request.data.get("course_id")
         course = get_object_or_404(Course, pk=course_id)
 
         subscription = Subscription.objects.filter(user=user, course=course)
 
         if subscription.exists():
             subscription.delete()
-            message = 'Подписка удалена'
+            message = "Подписка удалена"
         else:
             Subscription.objects.create(user=user, course=course)
-            message = 'Подписка добавлена'
+            message = "Подписка добавлена"
 
-        return Response({'message': message})
+        return Response({"message": message})

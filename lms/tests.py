@@ -134,7 +134,7 @@ class LessonTestCase(APITestCase):
                         "owner": self.user.pk,
                     },
                     "video_link": None,
-                    "name":self.lesson.name,
+                    "name": self.lesson.name,
                     "description": self.lesson.description,
                     "preview": None,
                     "owner": self.user.pk,
@@ -143,6 +143,7 @@ class LessonTestCase(APITestCase):
         }
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data, result)
+
 
 class SubscriptionTestCase(APITestCase):
 
@@ -157,7 +158,9 @@ class SubscriptionTestCase(APITestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json().get("message"), "Подписка добавлена")
-        self.assertTrue(Subscription.objects.filter(user=self.user, course=self.course).exists())
+        self.assertTrue(
+            Subscription.objects.filter(user=self.user, course=self.course).exists()
+        )
 
     def test_subscription_delete(self):
         Subscription.objects.create(user=self.user, course=self.course)
@@ -166,14 +169,20 @@ class SubscriptionTestCase(APITestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json().get("message"), "Подписка удалена")
-        self.assertFalse(Subscription.objects.filter(user=self.user, course=self.course).exists())
+        self.assertFalse(
+            Subscription.objects.filter(user=self.user, course=self.course).exists()
+        )
 
     def test_subscription_change_status(self):
         url = reverse("lms:subscription")
         data = {"course_id": self.course.pk}
 
         self.client.post(url, data)
-        self.assertTrue(Subscription.objects.filter(user=self.user, course=self.course).exists())
+        self.assertTrue(
+            Subscription.objects.filter(user=self.user, course=self.course).exists()
+        )
 
         self.client.post(url, data)
-        self.assertFalse(Subscription.objects.filter(user=self.user, course=self.course).exists())
+        self.assertFalse(
+            Subscription.objects.filter(user=self.user, course=self.course).exists()
+        )
