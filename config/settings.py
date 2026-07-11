@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
+    "drf_yasg",
+    "corsheaders",
     "users",
     "lms",
 ]
@@ -32,6 +34,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -68,6 +71,7 @@ REST_FRAMEWORK = {
 
 # {
 #      "DEFAULT_PERMISSION_CLASSES': ["rest_framework.permissions.AllowAny", ]`
+# для тестов, когда нужно снять обязательную авторизацию
 # }
 
 
@@ -120,3 +124,19 @@ SIMPLE_JWT = {
 
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+
+
+CORS_ALLOWED_ORIGINS = [
+    "https://read-only.example.com",
+    "https://read-and-write.example.com",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://read-and-write.example.com",
+]
+
+
+STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
+
+CUR_API_URL = os.getenv("CUR_API_URL")
+CUR_API_KEY = os.getenv("CUR_API_KEY")
