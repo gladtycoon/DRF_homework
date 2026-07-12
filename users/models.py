@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from config import settings
 from lms.models import Course, Lesson
 
 
@@ -44,7 +45,7 @@ class Payments(models.Model):
         TRANSFER = "transfer", "Перевод на счет"
 
     payment_user = models.ForeignKey(
-        User,  # лучше использовать гибкую модель: settings.AUTH_USER_MODEL,
+        settings.AUTH_USER_MODEL,  # вместо User (жестко) лучше использовать гибкую модель: settings.AUTH_USER_MODEL
         on_delete=models.SET_NULL,
         verbose_name="Пользователь",
         help_text="Выберите пользователя",
@@ -53,8 +54,9 @@ class Payments(models.Model):
     )
 
     payment_date = models.DateField(
-        verbose_name="Дата платежа",  # можно воткнуть auto_now_add=True, или auto_now =True,
-        help_text="Укажите дату платежа",
+        auto_now_add=True,  # можно воткнуть auto_now_add=True, или auto_now =True,
+        verbose_name="Дата платежа",
+        # help_text="Укажите дату платежа",  # если убрать автозаполнение, то вернуть help_text
         blank=True,
         null=True,
     )
@@ -86,6 +88,14 @@ class Payments(models.Model):
         choices=PaymentMethod.choices,
         default=PaymentMethod.TRANSFER,
         verbose_name="Способ оплаты",
+    )
+
+    session_id = models.CharField(
+        max_length=500, blank=True, null=True, verbose_name="ID сессии Stripe"
+    )
+
+    link = models.URLField(
+        max_length=500, blank=True, null=True, verbose_name="Ссылка на оплату"
     )
 
     class Meta:
