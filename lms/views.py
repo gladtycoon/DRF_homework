@@ -11,6 +11,7 @@ from lms.paginators import CustomPagination
 from lms.permissions import IsOwner
 from lms.serializers import (CourseDetailSerializer, CourseSerializer,
                              LessonSerializer)
+from lms.tasks import send_email_about_update_course
 from users.permissions import IsModer
 
 
@@ -52,6 +53,7 @@ class LessonCreateApiView(CreateAPIView):
         lesson = serializer.save()
         lesson.owner = self.request.user
         lesson.save()
+        send_email_about_update_course.delay(lesson.course.id)
 
 
 class LessonRetrieveApiView(RetrieveAPIView):
