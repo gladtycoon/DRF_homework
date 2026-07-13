@@ -29,6 +29,9 @@ class Course(models.Model):
         verbose_name="Владелец курса",
         help_text="Укажите владельца курса",
     )
+    last_updated = models.DateTimeField(
+        auto_now=True, verbose_name="Последнее обновление курса"
+    )
 
     class Meta:
         verbose_name = "Курс"
