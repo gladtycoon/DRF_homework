@@ -35,7 +35,69 @@
 
 ## 🚀 Быстрый старт
 
-### 1. Клонирование репозитория
+### Клонирование репозитория
 ```bash
 git clone https://github.com/gladtycoon/DRF_homework
 cd DRF_homework
+```
+
+---
+
+### Локальный запуск (без Docker)
+
+1. Установи зависимости:
+   ```bash
+   poetry install
+   ```
+2. Заполнение переменных:
+   ```
+   Пример переменных — скопируй из .env.sample
+   ```
+3. Примени миграции:
+   ```bash
+   python manage.py migrate
+   ```
+4. Запусти сервер:
+   ```bash
+   python manage.py runserver
+   ```
+
+---
+
+### Запуск через Docker (единой командой)
+
+1. Скопируй `.env.example` в `.env` и заполни.
+2. Выполни:
+   ```bash
+   docker-compose up --build
+   ```
+3. Примени миграции:
+   ```bash
+   docker-compose exec web python manage.py migrate
+   ```
+4. Создай суперпользователя:
+   ```bash
+   docker-compose exec web python manage.py createsuperuser
+   ```
+
+---
+
+## 🛑 Остановка контейнеров
+
+```bash
+docker-compose down
+```
+
+---
+
+## 🧹 Очистка данных (удалить volumes)
+
+```bash
+docker-compose down -v
+```
+
+---
+
+## 📄 Лицензия
+
+MIT
