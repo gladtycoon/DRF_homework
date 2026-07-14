@@ -6,6 +6,10 @@ services:
     container_name: drf_db
     env_file:
       - .env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -41,6 +45,7 @@ services:
       - .env
     environment:
         - HOST=db
+        - PORT=5432
     depends_on:
       db:
         condition: service_healthy

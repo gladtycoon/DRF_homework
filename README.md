@@ -66,19 +66,22 @@ cd DRF_homework
 
 ### Запуск через Docker (единой командой)
 
-1. Скопируй `.env.example` в `.env` и заполни.
-2. Выполни:
+* Скопируй `.env.sample` в `.env` и заполни.
+* Выполни:
    ```bash
-   docker-compose up --build
+  docker-compose up --build
    ```
-3. Примени миграции:
-   ```bash
-   docker-compose exec web python manage.py migrate
-   ```
-4. Создай суперпользователя:
-   ```bash
-   docker-compose exec web python manage.py createsuperuser
-   ```
+
+[//]: # (* Примени миграции:)
+
+[//]: # (   ```bash)
+
+[//]: # (   docker-compose exec web python manage.py migrate)
+[//]: # (   ```)
+* Создай суперпользователя:
+    ```bash
+    docker-compose exec web python manage.py createsuperuser
+    ```
 
 ---
 
