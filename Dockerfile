@@ -2,10 +2,8 @@ FROM python:3.14
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock ./
+COPY requirements.txt .
 
-RUN pip install poetry && poetry install --no-interaction --no-ansi
+RUN pip install -r requirements.txt
 
 COPY . .
-
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
