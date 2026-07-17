@@ -70,22 +70,16 @@ REST_FRAMEWORK = {
     ],
 }
 
-# {
-#      "DEFAULT_PERMISSION_CLASSES': ["rest_framework.permissions.AllowAny", ]`
-# для тестов, когда нужно снять обязательную авторизацию
-# }
-
-
 WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("NAME"),
-        "USER": os.getenv("USER"),
-        "PASSWORD": os.getenv("PASSWORD"),
-        "HOST": os.getenv("HOST"),
-        "PORT": os.getenv("PORT"),
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": os.getenv("POSTGRES_HOST"),
+        "PORT": os.getenv("POSTGRES_PORT"),
     }
 }
 
@@ -126,7 +120,6 @@ SIMPLE_JWT = {
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
-
 CORS_ALLOWED_ORIGINS = [
     "https://read-only.example.com",
     "https://read-and-write.example.com",
@@ -141,19 +134,25 @@ STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 CUR_API_URL = os.getenv("CUR_API_URL")
 CUR_API_KEY = os.getenv("CUR_API_KEY")
 
-# Celery Configuration Options
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+REDIS_PORT = os.getenv("REDIS_PORT", 6379)
+
+LOCATION = f"redis://{REDIS_HOST}:{REDIS_PORT}/1"
+
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
-CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
-CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+
+LOCATION = f"redis://{REDIS_HOST}:{REDIS_PORT}/1"
 
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BEAT_SCHEDULE = {
     "block_inactive_users": {
         "task": "users.tasks.block_inactive_users",
-        "schedule": timedelta(days=1),  # запускать раз в сутки
+        "schedule": timedelta(days=1),
     },
 }
 
