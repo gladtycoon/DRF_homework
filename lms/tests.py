@@ -93,8 +93,7 @@ class LessonTestCase(APITestCase):
 
     def test_lesson_create(self):
         url = reverse("lms:lessons-create")
-        data = {"name": "Урок 2",
-                "course": self.course.id}
+        data = {"name": "Урок 2", "course": self.course.id}
         response = self.client.post(url, data)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

@@ -54,7 +54,10 @@ class LessonCreateApiView(CreateAPIView):
         lesson.owner = self.request.user
         lesson.save()
         if lesson.course:
-            send_email_about_update_course.delay(lesson.course.id)
+            try:
+                send_email_about_update_course.delay(lesson.course.id)
+            except:
+                pass
 
 
 class LessonRetrieveApiView(RetrieveAPIView):
