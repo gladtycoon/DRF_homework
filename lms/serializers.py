@@ -48,8 +48,7 @@ class CourseDetailSerializer(ModelSerializer):
 
 
 class LessonSerializer(ModelSerializer):
-    # course = CourseSerializer(read_only=True)
-    serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
+    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
     video_link = serializers.URLField(
         validators=[validate_allowed_links], required=False
     )
